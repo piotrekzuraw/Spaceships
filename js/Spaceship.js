@@ -1,10 +1,14 @@
+import { Missile } from "./Missile.js";
+
 export class Spaceship {
+  missiles = [];
   #modifier = 5;
   #leftArrow = false;
   #rightArrow = false;
-  constructor(element) {
-    // recives htmlElement.spaceship
+  constructor(element, container) {
+    // recives htmlElement.spaceship and htmlElement.container
     this.element = element;
+    this.container = container;
   }
   init() {
     this.#setPosition();
@@ -42,6 +46,9 @@ export class Spaceship {
         case "ArrowRight":
           this.#rightArrow = false;
           break;
+        case "Space":
+          this.#shot();
+          break;
       }
     });
   }
@@ -61,5 +68,15 @@ export class Spaceship {
         parseInt(this.element.style.left, 10) + this.#modifier
       }px`;
     }
+  }
+  #shot() {
+    // creates new Missile object with starting coordinates exactly above Spaceship current location and pushes it to an array
+    const missile = new Missile(
+      this.#getPosition(),
+      this.element.offsetTop,
+      this.container
+    );
+    missile.init();
+    this.missiles.push(missile);
   }
 }
