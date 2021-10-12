@@ -76,6 +76,7 @@ body {
 }
 
 .spaceship {
+  position: fixed;
   width: var(--size-unit);
   height: var(--size-unit);
   background-image: url("../images/ship.png");
@@ -101,14 +102,14 @@ body {
   height: var(--size-unit);
   background-image: url("../images/explosion.png");
   animation: move-17-frames var(--explosion-animation-duration) steps(17)
-    infinite;
+    forwards;
 }
 .explosion__big {
   width: calc(var(--size-unit) * 2);
   height: calc(var(--size-unit) * 2);
   background-image: url("../images/explosion-big.png");
   animation: move-34-frames var(--explosion-animation-duration) steps(17)
-    infinite;
+    forwards;
 }
 
 .missile {
