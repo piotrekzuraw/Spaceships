@@ -32,12 +32,14 @@ class Game {
       ? this.#createNewEnemy(
           this.#htmlElements.container,
           this.#enemiesInterval,
-          "enemy"
+          "enemy",
+          "explosion"
         )
       : this.#createNewEnemy(
           this.#htmlElements.container,
           this.#enemiesInterval * 2,
           "enemy__big",
+          "explosion__big",
           3 // lives
         );
   }
@@ -61,18 +63,31 @@ class Game {
         enemy.removeEnemy();
         enemiesArray.splice(enemyIndex, 1);
       }
-    });
-    this.#ship.missiles.forEach((missile, missileIndex, missileArray) => {
-      const missilePosition = {
-        top: missile.element.offsetTop,
-        right: missile.element.offsetLeft + missile.element.offsetWidth,
-        bottom: missile.element.offsetTop + missile.element.offsetHeight,
-        left: missile.element.offsetLeft,
-      };
-      if (missilePosition.bottom < 0) {
-        missile.removeMissile();
-        missileArray.splice(missileIndex, 1);
-      }
+      this.#ship.missiles.forEach((missile, missileIndex, missileArray) => {
+        const missilePosition = {
+          top: missile.element.offsetTop,
+          right: missile.element.offsetLeft + missile.element.offsetWidth,
+          bottom: missile.element.offsetTop + missile.element.offsetHeight,
+          left: missile.element.offsetLeft,
+        };
+        if (
+          missilePosition.bottom >= enemyPosition.top &&
+          missilePosition.top <= enemyPosition.bottom &&
+          missilePosition.right >= enemyPosition.left &&
+          missilePosition.left <= enemyPosition.right
+        ) {
+          enemy.hit();
+          if (!enemy.lives) {
+            enemiesArray.splice(enemyIndex, 1);
+          }
+          missile.removeMissile();
+          missileArray.splice(missileIndex, 1);
+        }
+        if (missilePosition.bottom < 0) {
+          missile.removeMissile();
+          missileArray.splice(missileIndex, 1);
+        }
+      });
     });
   }
 }

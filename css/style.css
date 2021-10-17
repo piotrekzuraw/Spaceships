@@ -106,6 +106,7 @@ body {
   background-image: url("../images/explosion.png");
   animation: move-17-frames var(--explosion-animation-duration) steps(17)
     forwards;
+  position: fixed;
 }
 .explosion__big {
   width: calc(var(--size-unit) * 2);
@@ -113,6 +114,7 @@ body {
   background-image: url("../images/explosion-big.png");
   animation: move-34-frames var(--explosion-animation-duration) steps(17)
     forwards;
+  position: fixed;
 }
 
 .missile {
