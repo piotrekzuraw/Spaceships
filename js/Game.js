@@ -5,9 +5,13 @@ class Game {
   #htmlElements = {
     spaceship: document.querySelector("[data-spaceship]"),
     container: document.querySelector("[data-container]"),
+    score: document.querySelector("[data-score]"),
+    lives: document.querySelector("[data-lives]"),
   };
 
   #enemies = [];
+  #lives = null;
+  #score = null;
   #enemiesInterval = null;
 
   #ship = new Spaceship(
@@ -22,7 +26,9 @@ class Game {
   }
   #newGame() {
     this.#enemiesInterval = 30;
-    this.#createEnemyInterval = setInterval(() => this.#randomNewEnemy(), 1000);
+    this.#lives = 3;
+    this.#score = 0;
+    // this.#createEnemyInterval = setInterval(() => this.#randomNewEnemy(), 1000);
     this.#checkPositionInterval = setInterval(() => this.#checkPosition(), 1);
   }
   #randomNewEnemy() {
@@ -62,6 +68,7 @@ class Game {
       if (enemyPosition.top > window.innerHeight) {
         enemy.removeEnemy();
         enemiesArray.splice(enemyIndex, 1);
+        this.#updateLives();
       }
       this.#ship.missiles.forEach((missile, missileIndex, missileArray) => {
         const missilePosition = {
@@ -82,6 +89,7 @@ class Game {
           }
           missile.removeMissile();
           missileArray.splice(missileIndex, 1);
+          this.#updateScore();
         }
         if (missilePosition.bottom < 0) {
           missile.removeMissile();
@@ -89,6 +97,19 @@ class Game {
         }
       });
     });
+  }
+  #updateScore() {
+    this.#score++;
+    if (!this.#score % 5) {
+      this.#enemiesInterval--;
+    }
+    this.#htmlElements.score.textContent = `Score: ${this.#score}`;
+  }
+  #updateLives() {
+    this.#lives--;
+    this.#htmlElements.lives.textContent = `Lives: ${this.#lives}`;
+    this.#htmlElements.container.classList.add("hit");
+    setTimeout(() => this.#htmlElements.container.classList.remove("hit"), 100);
   }
 }
 
