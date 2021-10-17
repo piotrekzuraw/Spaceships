@@ -11,11 +11,11 @@ export class Spaceship {
     this.container = container;
   }
   init() {
-    this.#setPosition();
+    this.setPosition();
     this.#eventListeners();
     this.#gameLoop();
   }
-  #setPosition() {
+  setPosition() {
     // for spaceship initial positioning
     this.element.style.bottom = "0px";
     this.element.style.left = `${
