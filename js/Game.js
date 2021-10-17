@@ -77,6 +77,7 @@ class Game {
   }
   #checkPosition() {
     // checks if are there any Enemies and Missiles outside visible browser area and deletes them from DOM and arrays
+    // checks if positions of Enemies and Missiles are the same so hit can be made
     this.#enemies.forEach((enemy, enemyIndex, enemiesArray) => {
       const enemyPosition = {
         top: enemy.element.offsetTop,
@@ -118,6 +119,7 @@ class Game {
     });
   }
   #updateScore() {
+    // updates the score section, every 5 points speeds up enemies
     this.#score++;
     if (!this.#score % 5) {
       this.#enemiesInterval--;
@@ -125,6 +127,7 @@ class Game {
     this.#htmlElements.score.textContent = `Score: ${this.#score}`;
   }
   #updateLives() {
+    // updates the lives section, when lives reach 0 game ends
     this.#lives--;
     this.#htmlElements.lives.textContent = `Lives: ${this.#lives}`;
     this.#htmlElements.container.classList.add("hit");
